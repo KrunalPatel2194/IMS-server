@@ -12,6 +12,19 @@ import ExamPage from './pages/adminPages/ExamPage';
 import TopicsPage from './pages/adminPages/topicsPage';
 import SubjectsPage from './pages/adminPages/subjectsPage';
 import SubtopicsPage from './pages/adminPages/subTopicsPage';
+import BulkTopicsPage from './pages/adminPages/BulkTopicsPage';
+import GenerateContentPage from './pages/adminPages/GenerateContentPage';
+import VisitorsPage from './pages/Security/visitorsPage';
+import UsersPage from './pages/Principal/usersPage';
+import SchoolsPage from './pages/Principal/schoolsPage';
+import StudentsPage from './pages/Office/studentsPage';
+import FeeCollectionPage from './pages/Office/FeeCollection/feeCollectionPage';
+import RawMaterialsPage from './pages/Inventory/rawMaterialsPage';
+import SuppliersPage from './pages/Inventory/supplierPage';
+import OrdersPage from './pages/Inventory/orderPage';
+import StockPage from './pages/Inventory/stockPage';
+import ProductManagementPage from './pages/Production/ProductManagementPage';
+import ProductionManagementPage from './pages/Production/ProductionManagementPage';
 // import ExamPage from './pages/adminPages/ExamPage';
 
 // Lazy loaded components for Study Content
@@ -75,49 +88,50 @@ function App() {
           <Route path="subjects" element={<SubjectsPage />} />
           <Route path="topics" element={<TopicsPage />} />
           <Route path="subtopics" element={<SubtopicsPage />} />
+          <Route path="bulk-add-content" element={<BulkTopicsPage />} />
+          <Route path="generate-content" element={<GenerateContentPage />} />
 
 
 
-          {/* <Route path="exam" element={<ExamPage />} /> */}
+
+
+        </Route>
+        <Route path="security">
+          <Route path="visitors" element={<VisitorsPage />} />
         </Route>
 
-        {/* Study Content routes */}
-        <Route path="study-content">
-          <Route path="view" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <ViewStudyContent /> */}
-            </Suspense>
-          } />
-          <Route path="add" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <AddStudyContent /> */}
-            </Suspense>
-          } />
-          <Route path="add-ai" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <AddAIStudyContent /> */}
-            </Suspense>
-          } />
+        <Route path="inventory">
+        <Route path="suppliers" element={<SuppliersPage />} />
+
+          <Route path="rawmaterials" element={<RawMaterialsPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="stock" element={<StockPage />} />
+
+
+        </Route>
+        <Route path="sales">
+        <Route path="products" element={<ProductManagementPage />} />
+        <Route path="production" element={<ProductionManagementPage />} />
+
+
+         
+
+
+        </Route>
+        <Route path="manage">
+          <Route path="staff" element={<UsersPage />} />
+          <Route path="school" element={<SchoolsPage />} />
+
+        </Route>
+        <Route path="manage">
+          <Route path="fees" element={<UsersPage />} />
+          <Route path="students" element={<StudentsPage />} />
+          <Route path="feecollection" element={<FeeCollectionPage />} />
+
+
         </Route>
 
-        {/* Exam Content routes */}
-        <Route path="exam-content">
-          <Route path="view" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <ViewExamContent /> */}
-            </Suspense>
-          } />
-          <Route path="add" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <AddExamContent /> */}
-            </Suspense>
-          } />
-          <Route path="add-ai" element={
-            <Suspense fallback={<div>Loading...</div>}>
-              {/* <AddAIExamContent /> */}
-            </Suspense>
-          } />
-        </Route>
+       
 
         {/* Redirect root to dashboard */}
         <Route index element={<Navigate to="/dashboard" replace />} />

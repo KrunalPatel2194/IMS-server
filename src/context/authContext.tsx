@@ -90,6 +90,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       try {
         if (savedUser) {
+
+          console.log(savedUser ,"savedUser")
           setUser(JSON.parse(savedUser));
         }
 

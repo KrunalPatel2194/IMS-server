@@ -1,12 +1,14 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const auth = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -18,42 +20,56 @@ const LoginPage: React.FC = () => {
     setError('');
 
     try {
-      const response = await auth.superAdminLogin(formData.email, formData.password);
-      console.log(response,"loginRE")
-      if (response.success) {
-        navigate('/dashboard', { replace: true });
+      const response = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        window.location.href = '/dashboard';
       } else {
-        setError(response.error || 'Login failed');
+        setError(data.message || 'Login failed');
       }
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      console.error('Login error:', err);
+      setError(err.message === 'Failed to fetch' 
+        ? 'Unable to connect to server' 
+        : err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Rest of the component remains the same
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
         <div>
-          <h2 className="text-3xl font-bold text-center">Admin Login</h2>
+          <h2 className="text-3xl font-bold text-center">Login</h2>
         </div>
 
         {error && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-md">{error}</div>
+          <div className="bg-red-50 text-red-500 p-3 rounded-md text-center">
+            {error}
+          </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Email
+              Username
             </label>
             <input
-              type="email"
-              value={formData.email}
+              type="text"
+              value={formData.username}
               onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
+                setFormData({ ...formData, username: e.target.value })
               }
               className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
               required

@@ -4,6 +4,8 @@ export interface User {
   name: string;
   photo?: string;
   provider?: string;
+  fullName? : string;
+  username?:string;
   selectedExam?: string;
   fieldOfStudy?: string;
   examId?: string; // Added examId to user interface
