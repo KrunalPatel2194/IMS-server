@@ -5,8 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    historyApiFallback: true,
+    // historyApiFallback isn't a direct option in Vite
+    // We can use middlewareMode and setup custom handling instead
   },
+  preview: {
+    port: 4000,
+  },
+  // Add this to handle client-side routing
   build: {
     outDir: 'dist',
   },
