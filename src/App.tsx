@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import { useAuth } from './context/authContext';
 
@@ -18,13 +18,23 @@ const Login = React.lazy(() => import('./pages/login'));
 function App() {
   const { isAuthenticated, setupSession } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Redirect /login and /dashboard to root
+  useEffect(() => {
+    if (location.pathname === '/login' || location.pathname === '/dashboard') {
+      navigate('/', { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  // Handle authentication state
   useEffect(() => {
     if (!isAuthenticated) {
       navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
+  // Setup session for authenticated users
   useEffect(() => {
     if (isAuthenticated) {
       setupSession();
@@ -43,14 +53,7 @@ function App() {
             </Suspense>
           }
         />
-        <Route
-          path="/login"
-          element={
-            <Suspense fallback={<div>Loading...</div>}>
-              <Login />
-            </Suspense>
-          }
-        />
+        {/* Catch all route for unauthenticated users */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
@@ -60,9 +63,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        {/* Dashboard */}
+        {/* Dashboard as index route */}
         <Route index element={<DashboardPage />} />
-       
         
         {/* Inventory routes */}
         <Route path="inventory">
