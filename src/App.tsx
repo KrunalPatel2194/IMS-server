@@ -20,12 +20,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [isAuthenticated, navigate]);
-
-  useEffect(() => {
+    // Setup session when authenticated
     if (isAuthenticated) {
       setupSession();
     }
@@ -36,13 +31,14 @@ function App() {
     return (
       <Routes>
         <Route
-          path="/"
+          path="/login"
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Login />
             </Suspense>
           }
         />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     );
@@ -51,37 +47,27 @@ function App() {
   // Main authenticated routes
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      {/* Redirect root to dashboard for authenticated users */}
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      
+      {/* Layout wrapper for authenticated routes */}
+      <Route element={<Layout />}>
         {/* Dashboard */}
-        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         
-        {/* Manage Public Content routes */}
-       
-       
-
-        <Route path="inventory">
-        <Route path="suppliers" element={<SuppliersPage />} />
-
+        {/* Inventory routes */}
+        <Route path="/inventory">
+          <Route path="suppliers" element={<SuppliersPage />} />
           <Route path="rawmaterials" element={<RawMaterialsPage />} />
           <Route path="orders" element={<OrdersPage />} />
           <Route path="stock" element={<StockPage />} />
-
-
         </Route>
-        <Route path="sales">
-        <Route path="products" element={<ProductManagementPage />} />
-        <Route path="production" element={<ProductionManagementPage />} />
-
-
-         
-
-
+        
+        {/* Sales routes */}
+        <Route path="/sales">
+          <Route path="products" element={<ProductManagementPage />} />
+          <Route path="production" element={<ProductionManagementPage />} />
         </Route>
-       
-       
-
-        {/* Redirect root to dashboard */}
-        <Route index element={<Navigate to="/" replace />} />
         
         {/* Catch all route for authenticated users */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
