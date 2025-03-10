@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigate('/');
     }
   }, [isAuthenticated, navigate]);
 
@@ -36,15 +36,14 @@ function App() {
     return (
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Login />
             </Suspense>
           }
         />
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }
@@ -54,6 +53,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Dashboard */}
+        <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         
         {/* Inventory routes */}
@@ -69,12 +69,9 @@ function App() {
           <Route path="products" element={<ProductManagementPage />} />
           <Route path="production" element={<ProductionManagementPage />} />
         </Route>
-       
-        {/* Redirect root to dashboard */}
-        <Route index element={<Navigate to="/dashboard" replace />} />
         
         {/* Catch all route for authenticated users */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
