@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('lastActiveTime');
     setUser(null);
     setError(null);
-    window.location.href = '/login';
+    window.location.href = '/';
   }, []);
 
   const saveUserData = useCallback((userData: User | ((prevUser: User | null) => User | null)) => {
