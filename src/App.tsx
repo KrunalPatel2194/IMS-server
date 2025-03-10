@@ -36,7 +36,7 @@ function App() {
     return (
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             <Suspense fallback={<div>Loading...</div>}>
               <Login />
@@ -81,7 +81,7 @@ function App() {
        
 
         {/* Redirect root to dashboard */}
-        <Route index element={<Navigate to="/dashboard" replace />} />
+        <Route index element={<Navigate to="/" replace />} />
         
         {/* Catch all route for authenticated users */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
