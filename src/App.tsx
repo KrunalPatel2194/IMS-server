@@ -20,7 +20,12 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Setup session when authenticated
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
     if (isAuthenticated) {
       setupSession();
     }
@@ -47,16 +52,12 @@ function App() {
   // Main authenticated routes
   return (
     <Routes>
-      {/* Redirect root to dashboard for authenticated users */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      
-      {/* Layout wrapper for authenticated routes */}
-      <Route element={<Layout />}>
+      <Route path="/" element={<Layout />}>
         {/* Dashboard */}
-        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         
         {/* Inventory routes */}
-        <Route path="/inventory">
+        <Route path="inventory">
           <Route path="suppliers" element={<SuppliersPage />} />
           <Route path="rawmaterials" element={<RawMaterialsPage />} />
           <Route path="orders" element={<OrdersPage />} />
@@ -64,10 +65,13 @@ function App() {
         </Route>
         
         {/* Sales routes */}
-        <Route path="/sales">
+        <Route path="sales">
           <Route path="products" element={<ProductManagementPage />} />
           <Route path="production" element={<ProductionManagementPage />} />
         </Route>
+       
+        {/* Redirect root to dashboard */}
+        <Route index element={<Navigate to="/dashboard" replace />} />
         
         {/* Catch all route for authenticated users */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
