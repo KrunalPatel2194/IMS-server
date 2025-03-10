@@ -15,7 +15,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireSuperA
   }
 
   if (requireSuperAdmin && auth.user.role !== 'superadmin') {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!['admin', 'superadmin'].includes(auth.user.role || '')) {
