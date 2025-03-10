@@ -1,25 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   ChevronDown, 
-  LogOut, 
   Menu, 
   X, 
   LayoutDashboard, 
-  Users, 
   Package, 
-  ShoppingBag, 
   ShoppingCart, 
-  FileSpreadsheet, 
-  Building2, 
-  FileText, 
-  Receipt, 
-  ClipboardList, 
-  CreditCard, 
   Settings, 
   Shield,
   ChevronRight,
-  Warehouse,
-  CircleDollarSign
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
@@ -39,7 +28,7 @@ interface MenuItem {
 }
 
 const Sidebar = () => {
-  const { logout , user} = useAuth();
+  const {  user} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
@@ -55,6 +44,7 @@ const Sidebar = () => {
       const userData = JSON.parse(user);
       setUserRole(userData.role);
       setUserName(userData.fullName);
+      console.log(userName)
     }
   }, []);
 
@@ -80,12 +70,7 @@ const Sidebar = () => {
           icon: <LayoutDashboard className="w-5 h-5" />,
           roles: ['SuperAdmin', 'Admin', 'Principal', 'Teacher', 'Office', 'Staff']
         },
-        // { 
-        //   title: 'Parties', 
-        //   path: '/parties',
-        //   icon: <Users className="w-5 h-5" />,
-        //   roles: ['SuperAdmin', 'Admin', 'Staff']
-        // },
+       
         { 
           title: 'Inventory', 
           path: '/inventory',
@@ -127,77 +112,13 @@ const Sidebar = () => {
             { title: 'Products', path: '/sales/products', roles: ['SuperAdmin', 'Admin', 'Staff'] },
             { title: 'Production', path: '/sales/production', roles: ['SuperAdmin', 'Admin', 'Staff'] },
 
-            // { title: 'Orders', path: '/inventory/orders', roles: ['SuperAdmin', 'Admin', 'Staff'] },
-            // { title: 'Vendors', path: '/purchases/vendors', roles: ['SuperAdmin', 'Admin', 'Staff'] }
+           
           ]
         },
-        // { 
-        //   title: 'Reports', 
-        //   path: '/reports',
-        //   icon: <FileSpreadsheet className="w-5 h-5" />,
-        //   roles: ['SuperAdmin', 'Admin', 'Principal']
-        // }
+      
       ]
     },
-    // {
-    //   category: 'ACCOUNTING SOLUTIONS',
-    //   items: [
-    //     { 
-    //       title: 'Cash & Bank', 
-    //       path: '/cash-bank',
-    //       icon: <Building2 className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Office']
-    //     },
-    //     { 
-    //       title: 'E-Invoicing', 
-    //       path: '/e-invoicing',
-    //       icon: <FileText className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Office']
-    //     },
-    //     { 
-    //       title: 'Automated Bills', 
-    //       path: '/automated-bills',
-    //       icon: <Receipt className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Office']
-    //     },
-    //     { 
-    //       title: 'Expenses', 
-    //       path: '/expenses',
-    //       icon: <ClipboardList className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Office', 'Staff']
-    //     },
-    //     { 
-    //       title: 'POS Billing', 
-    //       path: '/pos-billing',
-    //       icon: <CreditCard className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Staff'],
-    //       isNew: true
-    //     }
-    //   ]
-    // },
-    // {
-    //   category: 'BUSINESS TOOLS',
-    //   items: [
-    //     { 
-    //       title: 'Staff Attendance & Payroll', 
-    //       path: '/attendance',
-    //       icon: <Users className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Principal', 'Teacher']
-    //     },
-    //     { 
-    //       title: 'Manage Users', 
-    //       path: '/manage/users',
-    //       icon: <Users className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Principal']
-    //     },
-    //     { 
-    //       title: 'Godown', 
-    //       path: '/warehouse',
-    //       icon: <Warehouse className="w-5 h-5" />,
-    //       roles: ['SuperAdmin', 'Admin', 'Staff']
-    //     }
-    //   ]
-    // }
+   
   ];
 
   useEffect(() => {
@@ -353,9 +274,9 @@ const Sidebar = () => {
                           <span className="text-sm font-medium">{item.title}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          {item.isNew && (
+                          {/* {item.isNew && (
                             <span className="text-xs px-2 py-0.5 rounded-full bg-[#c94b4b] text-white">New</span>
-                          )}
+                          )} */}
                           {item.items && item.items.length > 0 && (
                             <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${expandedItems[item.title] ? 'rotate-90' : ''}`} />
                           )}
@@ -380,9 +301,9 @@ const Sidebar = () => {
                                   transition-colors flex items-center justify-between`}
                               >
                                 <span>{subItem.title}</span>
-                                {subItem.isNew && (
+                                {/* {subItem.isNew && (
                                   <span className="text-xs px-2 rounded-full bg-[#c94b4b] text-white">New</span>
-                                )}
+                                )} */}
                               </button>
                             ))}
                         </div>

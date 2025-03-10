@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('token');
-      const lastPage = localStorage.getItem('lastPage');
+      // const lastPage = localStorage.getItem('lastPage');
       const savedUser = localStorage.getItem('user');
       const lastActiveTime = localStorage.getItem('lastActiveTime');
 
@@ -90,8 +90,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       try {
         if (savedUser) {
-
-          console.log(savedUser ,"savedUser")
+          console.log(savedUser, "savedUser");
           setUser(JSON.parse(savedUser));
         }
 
@@ -104,10 +103,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // }
       } catch (err) {
         console.error('Auth initialization error:', err);
-        if (err.response?.status === 401) {
+        const axiosError = err as AxiosError<{ message: string }>;
+        if (axiosError.response?.status === 401) {
           setError('Unauthorized: Please check your permissions');
         } else {
-          setError(err.response?.data?.message || 'Failed to create admins');
+          setError(axiosError.response?.data?.message || 'Failed to authenticate');
         }
         // handleLogout();
       } finally {
@@ -116,7 +116,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
 
     initializeAuth();
-  }, [ saveUserData]);
+  }, [saveUserData, handleLogout]); // Added handleLogout to dependency array
 
   useEffect(() => {
     if (user) {

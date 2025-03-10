@@ -13,9 +13,7 @@ interface SubHeaderProps {
 const SubHeader: React.FC<SubHeaderProps> = ({
   title,
   showSearch = true,
-  showSort = true,
   onSearch,
-  onSort,
   onCreateNew
 }) => {
   return (

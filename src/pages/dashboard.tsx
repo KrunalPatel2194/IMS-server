@@ -1,6 +1,6 @@
 // pages/DashboardPage.tsx
 import React, { useState, useEffect } from 'react';
-import { Calendar, Package, Clipboard, TrendingUp, AlertTriangle, Clock, BarChart2, ShoppingCart } from 'lucide-react';
+import { Package, Clipboard, TrendingUp, AlertTriangle, Clock, BarChart2, ShoppingCart } from 'lucide-react';
 import axiosInstance from '../utils/axios';
 
 interface StockAlert {
@@ -89,7 +89,7 @@ const DashboardPage = () => {
     ])
       .then(() => setIsLoading(false))
       .catch((err) => {
-        console.error('Error loading dashboard data:', err);
+        console.error('Error loading dashboard data:', err,recentOrders);
         setError('Failed to load dashboard data. Please try again.');
         setIsLoading(false);
       });

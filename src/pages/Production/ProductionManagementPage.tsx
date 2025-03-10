@@ -1,6 +1,6 @@
 // pages/ProductionManagementPage.tsx
 import React, { useState, useEffect } from 'react';
-import { Plus, Calendar, Filter, ChevronDown, ChevronRight, Pencil, Trash2, X, Play, Check, AlertTriangle } from 'lucide-react';
+import { Plus, ChevronRight, Pencil, Trash2, X, Play ,ChevronDown} from 'lucide-react';
 import axiosInstance from '../../utils/axios';
 
 // Interfaces for data types
@@ -16,6 +16,10 @@ interface ProductItem {
   _id: string;
   name: string;
   category: string;
+  subItems?: Array<{
+    _id: string;
+    name: string;
+  }>;
 }
 
 interface SubItem {
@@ -29,6 +33,7 @@ interface ProductionItem {
   subItem?: SubItem | string;
   size: string;
   outputQuantity: number;
+  quantity?: number;
 }
 
 interface MaterialUsage {
@@ -213,9 +218,7 @@ const ProductionManagementPage = () => {
   };
 
   // Form handlers
-  // Fixed handleRecipeSubmit function in ProductionManagementPage.tsx
-
-const handleRecipeSubmit = async (e: React.FormEvent) => {
+  const handleRecipeSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setIsLoading(true);
@@ -298,9 +301,9 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
       );
       
       // Filter out any empty item entries
-    //   const filteredItems = batchFormData.items.filter(
-    //     i => i.product && i.size && i.quantity > 0
-    //   );
+      const filteredItems = batchFormData.items.filter(
+        i => i.product && i.size && i.quantity > 0
+      );
       
       if (filteredMaterials.length === 0) {
         setError('At least one material must be specified');
@@ -353,7 +356,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
 
   const updateBatchStatus = async (batchId: string, status: string) => {
     try {
-      const response = await axiosInstance.put(`/production/batches/${batchId}/status`, { 
+      await axiosInstance.put(`/production/batches/${batchId}/status`, { 
         status,
         completedBy: 'admin' // Replace with actual user
       });
@@ -381,6 +384,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
       }
     }
   };
+  
   
   
 
@@ -425,19 +429,15 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
       quantity: material.quantity
     }));
     
-    const resetRecipeForm = () => {
-        setRecipeFormData({
-          name: '',
-          description: '',
-          outputItems: [{ product: '', subItem: '', size: 'Medium', outputQuantity: 1 }], // Changed from quantity to outputQuantity
-          materials: [{ material: '', quantity: 0 }],
-          notes: '',
-          createdBy: 'admin',
-          isActive: true
-        });
-        setSelectedRecipe(null);
-        setIsEditMode(false);
-      };
+    setRecipeFormData({
+      name: recipe.name,
+      description: recipe.description || '',
+      outputItems: mappedOutputItems,
+      materials: mappedMaterials,
+      notes: recipe.notes || '',
+      createdBy: recipe.createdBy,
+      isActive: recipe.isActive
+    });
     
     setIsEditMode(true);
     setIsRecipeModalOpen(true);
@@ -469,7 +469,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
     if (field === 'outputQuantity' && value === '') {
       newOutputItems[index] = { 
         ...newOutputItems[index], 
-        [field]: '' 
+        [field]: 0  // Use 0 instead of empty string for number fields
       };
     } else {
       newOutputItems[index] = { 
@@ -510,7 +510,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
     if (field === 'quantity' && value === '') {
       newMaterials[index] = { 
         ...newMaterials[index], 
-        [field]: '' 
+        [field]: 0  // Use 0 instead of empty string for number fields
       };
     } else {
       newMaterials[index] = { 
@@ -830,7 +830,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
                             )}
                           </div>
                           <div className="text-sm text-gray-500">
-                            {recipe.outputItems.length} output items • {recipe.materials.length} materials
+                          {recipe.outputItems.length} output items • {recipe.materials.length} materials
                           </div>
                         </div>
                       </div>
@@ -893,7 +893,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
                                   </div>
                                 </div>
                                 <div className="text-sm text-gray-600 mt-1">
-                                  Quantity: {item.quantity}
+                                  Quantity: {item.outputQuantity}
                                 </div>
                               </div>
                             ))}
@@ -1043,7 +1043,7 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
                                 </div>
                               </div>
                               <div className="text-sm text-gray-600 mt-1">
-                                Quantity: {item.quantity}
+                                Quantity: {item.quantity || 0}
                               </div>
                             </div>
                           ))}
@@ -1216,17 +1216,17 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
                             </div>
                             
                             <div>
-      <label className="block text-xs text-gray-500 mb-1">Quantity</label>
-      <input
-        type="number"
-        min="1"
-        value={isNaN(item.outputQuantity) ? '' : item.outputQuantity}
-        onChange={(e) => handleOutputItemChange(index, 'outputQuantity', 
-          e.target.value === '' ? '' : parseInt(e.target.value))}
-        className="w-full px-2 py-1 text-sm border rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-        required
-      />
-    </div>
+                                <label className="block text-xs text-gray-500 mb-1">Quantity</label>
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={typeof item.outputQuantity === 'number' ? item.outputQuantity : ''}
+                                    onChange={(e) => handleOutputItemChange(index, 'outputQuantity', 
+                                    e.target.value === '' ? '' : parseInt(e.target.value))}
+                                    className="w-full px-2 py-1 text-sm border rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    required
+                                />
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -1280,18 +1280,18 @@ const handleRecipeSubmit = async (e: React.FormEvent) => {
                             </div>
                             
                             <div>
-      <label className="block text-xs text-gray-500 mb-1">Quantity</label>
-      <input
-        type="number"
-        min="0.01"
-        step="0.01"
-        value={isNaN(material.quantity) ? '' : material.quantity}
-        onChange={(e) => handleMaterialChange(index, 'quantity', 
-          e.target.value === '' ? '' : parseFloat(e.target.value))}
-        className="w-full px-2 py-1 text-sm border rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-        required
-      />
-    </div>
+                                <label className="block text-xs text-gray-500 mb-1">Quantity</label>
+                                <input
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    value={typeof material.quantity === 'number' ? material.quantity : ''}
+                                    onChange={(e) => handleMaterialChange(index, 'quantity', 
+                                    e.target.value === '' ? '' : parseFloat(e.target.value))}
+                                    className="w-full px-2 py-1 text-sm border rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                                    required
+                                />
+                            </div>
                           </div>
                         </div>
                       ))}

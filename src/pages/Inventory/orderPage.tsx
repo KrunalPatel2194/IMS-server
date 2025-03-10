@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Filter, Calendar, Pencil, Eye, X, PackageCheck, Package } from 'lucide-react';
+import { Plus, Eye, X, PackageCheck, Package } from 'lucide-react';
 import axiosInstance from '../../utils/axios';
 
 interface Material {
@@ -300,7 +300,7 @@ const OrdersPage = () => {
         items,
         createdBy: 'admin' // Replace with actual user
       });
-
+      console.log(response)
       setIsModalOpen(false);
       resetForm();
       showSuccessMessage('Order created successfully');

@@ -1,6 +1,6 @@
 // pages/ProductManagementPage.tsx
 import React, { useState, useEffect } from 'react';
-import { Plus, Filter, Search, ChevronDown, ChevronRight, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Search, ChevronDown, ChevronRight, Pencil, Trash2, X } from 'lucide-react';
 import axiosInstance from '../../utils/axios';
 
 interface Size {

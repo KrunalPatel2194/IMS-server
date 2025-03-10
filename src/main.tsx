@@ -4,16 +4,15 @@ import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/authContext.tsx'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 
 // Get the client ID from environment variables
-const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+// const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-// Validate client ID
-if (!clientId) {
-  console.error('Missing VITE_GOOGLE_CLIENT_ID in environment variables');
-}
-console.log('Google Client ID:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
+// // Validate client ID
+// if (!clientId) {
+//   console.error('Missing VITE_GOOGLE_CLIENT_ID in environment variables');
+// }
+// console.log('Google Client ID:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     {/* <GoogleOAuthProvider clientId={clientId || ''}> */}

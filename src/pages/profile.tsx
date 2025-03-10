@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/authContext';
-import {  User, Lock, School } from 'lucide-react';
+import {  User, School } from 'lucide-react';
 import axiosInstance from '../utils/axios';
 import { useNavigate } from 'react-router-dom';
 interface ProfileFormData {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Filter, Search, Pencil, Trash2, X } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, X } from 'lucide-react';
 import axiosInstance from '../../utils/axios';
 
 interface Supplier {

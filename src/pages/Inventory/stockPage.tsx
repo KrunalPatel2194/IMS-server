@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar, Eye, X, Scale } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import {  Eye, X, Scale } from 'lucide-react';
 import axiosInstance from '../../utils/axios';
 
 interface Material {
