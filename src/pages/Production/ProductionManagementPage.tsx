@@ -866,37 +866,37 @@ const ProductionManagementPage = () => {
                           <h4 className="font-medium text-gray-900 mb-2">Output Items</h4>
                           <div className="space-y-2">
                             {recipe.outputItems.map((item, index) => (
-                              <div 
-                                key={index} 
-                                className="bg-gray-50 p-3 rounded-md"
-                              >
-                                <div className="flex justify-between">
-                                  <div>
-                                    <span className="font-medium">
-                                      {typeof item.product === 'string' 
-                                        ? 'Unknown Product' 
-                                        : item.product.name}
-                                    </span>
-                                    {item.subItem && (
-                                      <span className="text-gray-600">
-                                        {' - '}
-                                        {typeof item.subItem === 'string'
-                                          ? 'Unknown Sub-item'
-                                          : item.subItem.name}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <div className="text-sm">
-                                    <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs">
-                                      {item.size}
-                                    </span>
-                                  </div>
-                                </div>
-                                <div className="text-sm text-gray-600 mt-1">
-                                  Quantity: {item.outputQuantity}
-                                </div>
-                              </div>
-                            ))}
+  <div 
+    key={index} 
+    className="bg-gray-50 p-3 rounded-md"
+  >
+    <div className="flex justify-between">
+      <div>
+        <span className="font-medium">
+          {typeof item.product === 'string' 
+            ? 'Unknown Product' 
+            : item.product?.name || 'Unknown Product'}
+        </span>
+        {item.subItem && (
+          <span className="text-gray-600">
+            {' - '}
+            {typeof item.subItem === 'string'
+              ? 'Unknown Sub-item'
+              : item.subItem?.name || 'Unknown Sub-item'}
+          </span>
+        )}
+      </div>
+      <div className="text-sm">
+        <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs">
+          {item.size}
+        </span>
+      </div>
+    </div>
+    <div className="text-sm text-gray-600 mt-1">
+      Quantity: {item.outputQuantity}
+    </div>
+  </div>
+))}
                           </div>
                         </div>
                         
@@ -904,24 +904,24 @@ const ProductionManagementPage = () => {
                           <h4 className="font-medium text-gray-900 mb-2">Materials Used</h4>
                           <div className="space-y-2">
                             {recipe.materials.map((material, index) => (
-                              <div 
-                                key={index} 
-                                className="bg-gray-50 p-3 rounded-md flex justify-between items-center"
-                              >
-                                <div>
-                                  <span className="font-medium">
-                                    {typeof material.material === 'string' 
-                                      ? 'Unknown Material' 
-                                      : material.material.name}
-                                  </span>
-                                </div>
-                                <div className="text-sm text-gray-600">
-                                  {material.quantity} {typeof material.material === 'string' 
-                                    ? '' 
-                                    : material.material.unit}
-                                </div>
-                              </div>
-                            ))}
+  <div 
+    key={index} 
+    className="bg-gray-50 p-3 rounded-md flex justify-between items-center"
+  >
+    <div>
+      <span className="font-medium">
+        {typeof material.material === 'string' 
+          ? 'Unknown Material' 
+          : material.material?.name || 'Unknown Material'}
+      </span>
+    </div>
+    <div className="text-sm text-gray-600">
+      {material.quantity} {typeof material.material === 'string' 
+        ? '' 
+        : material.material?.unit || ''}
+    </div>
+  </div>
+))}
                           </div>
                         </div>
                         
@@ -1016,62 +1016,62 @@ const ProductionManagementPage = () => {
                         <h4 className="font-medium text-gray-900 mb-2">Items Produced</h4>
                         <div className="space-y-2">
                           {batch.items.map((item, index) => (
-                            <div 
-                              key={index} 
-                              className="bg-gray-50 p-3 rounded-md"
-                            >
-                              <div className="flex justify-between">
-                                <div>
-                                  <span className="font-medium">
-                                    {typeof item.product === 'string' 
-                                      ? 'Unknown Product' 
-                                      : item.product.name}
-                                  </span>
-                                  {item.subItem && (
-                                    <span className="text-gray-600">
-                                      {' - '}
-                                      {typeof item.subItem === 'string'
-                                        ? 'Unknown Sub-item'
-                                        : item.subItem.name}
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="text-sm">
-                                  <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs">
-                                    {item.size}
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="text-sm text-gray-600 mt-1">
-                                Quantity: {item.quantity || 0}
-                              </div>
-                            </div>
-                          ))}
+  <div 
+    key={index} 
+    className="bg-gray-50 p-3 rounded-md"
+  >
+    <div className="flex justify-between">
+      <div>
+        <span className="font-medium">
+          {typeof item.product === 'string' 
+            ? 'Unknown Product' 
+            : item.product?.name || 'Unknown Product'}
+        </span>
+        {item.subItem && (
+          <span className="text-gray-600">
+            {' - '}
+            {typeof item.subItem === 'string'
+              ? 'Unknown Sub-item'
+              : item.subItem?.name || 'Unknown Sub-item'}
+          </span>
+        )}
+      </div>
+      <div className="text-sm">
+        <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-800 rounded-full text-xs">
+          {item.size}
+        </span>
+      </div>
+    </div>
+    <div className="text-sm text-gray-600 mt-1">
+      Quantity: {item.quantity || 0}
+    </div>
+  </div>
+))}
                         </div>
                       </div>
                       
                       <div>
                         <h4 className="font-medium text-gray-900 mb-2">Materials Used</h4>
                         <div className="space-y-2">
-                          {batch.materialsUsed.map((material, index) => (
-                            <div 
-                              key={index} 
-                              className="bg-gray-50 p-3 rounded-md flex justify-between items-center"
-                            >
-                              <div>
-                                <span className="font-medium">
-                                  {typeof material.material === 'string' 
-                                    ? 'Unknown Material' 
-                                    : material.material.name}
-                                </span>
-                              </div>
-                              <div className="text-sm text-gray-600">
-                                {material.quantity} {typeof material.material === 'string' 
-                                  ? '' 
-                                  : material.material.unit}
-                              </div>
-                            </div>
-                          ))}
+                         {batch.materialsUsed.map((material, index) => (
+  <div 
+    key={index} 
+    className="bg-gray-50 p-3 rounded-md flex justify-between items-center"
+  >
+    <div>
+      <span className="font-medium">
+        {typeof material.material === 'string' 
+          ? 'Unknown Material' 
+          : material.material?.name || 'Unknown Material'}
+      </span>
+    </div>
+    <div className="text-sm text-gray-600">
+      {material.quantity} {typeof material.material === 'string' 
+        ? '' 
+        : material.material?.unit || ''}
+    </div>
+  </div>
+))}
                         </div>
                       </div>
                     </div>
