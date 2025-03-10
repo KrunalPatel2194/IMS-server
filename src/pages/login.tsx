@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
       if (data.token) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
-        window.location.href = '/dashboard';
+        window.location.href = '/';
       } else {
         setError(data.message || 'Login failed');
       }
