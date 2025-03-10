@@ -54,7 +54,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         {/* Dashboard */}
         <Route index element={<DashboardPage />} />
-        <Route path="dashboard" element={<DashboardPage />} />
+       
         
         {/* Inventory routes */}
         <Route path="inventory">
