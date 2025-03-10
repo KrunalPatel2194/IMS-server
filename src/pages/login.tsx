@@ -1,11 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ims-admin-production.up.railway.app/api';
 
 const LoginPage: React.FC = () => {
-  // const navigate = useNavigate();
-  // const auth = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -25,6 +22,7 @@ const LoginPage: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include',
       });
 
       const data = await response.json();
